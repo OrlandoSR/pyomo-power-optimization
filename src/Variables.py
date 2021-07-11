@@ -1,5 +1,5 @@
 class Bus:
-    def __init(self, id, load):
+    def __init__(self, id, load):
         self.ID = id
         self.load = load
 
@@ -8,7 +8,7 @@ class Bus:
 
 
 class Line:
-    def __init(self, id, inputbus, outputbus, cap):
+    def __init__(self, id, inputbus, outputbus, cap):
         self.ID = id
         self.inputBus = inputbus
         self.outputBus = outputbus
@@ -35,3 +35,5 @@ class Generator:
     outputMinimum = 0
     cost = 0
 
+    def getBounds(self):
+        return (self.outputMinimum, self.outputMaximum)
