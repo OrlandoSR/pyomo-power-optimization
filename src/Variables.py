@@ -20,6 +20,9 @@ class Line:
     susceptance = 0
     capacity = None
 
+    def getBounds(self):
+        return (-self.capacity, self.capacity)
+
 
 class Generator:
     def __init__(self, id, locationbus, outputmax, outputmin, cost):
@@ -37,3 +40,17 @@ class Generator:
 
     def getBounds(self):
         return (self.outputMinimum, self.outputMaximum)
+
+
+class Angle:
+    def __init__(self, id, lb, ub):
+        self.ID = id
+        self.lb = lb
+        self.ub = ub
+
+    ID = None
+    lb = -1
+    ub = 1
+
+    def getBounds(self):
+        return (self.lb, self.ub)
