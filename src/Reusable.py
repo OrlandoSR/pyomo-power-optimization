@@ -17,7 +17,7 @@ lineList.append(Line(3, 2, 3, 50.0, 10))
 
 genList = []
 genList.append(Generator(1, 1, 70.0, 0.0, 30.0))
-genList.append(Generator(2, 1, 80.0, 0.0, 50.0))
+genList.append(Generator(2, 2, 80.0, 0.0, 50.0))
 
 # construct list of angles it depends on the numbers of buses
 # for each bus i need an angle
@@ -95,6 +95,27 @@ for i in model.Lines:
 
 # For each bus the input needs to equal the output
 # this are the power conservation constraints
+model.BalanceCon = ConstraintList()
+
+# iterate through each bus from the given list (buses are not variables in model)
+for i in busList:
+    PowerBalance = 0
+    # For each generator going in add to the power balance
+    for j in model.Generators:
+        # If the generator is at bus i then add that to the power of the bus
+        if j.locationBus == i.ID:
+            PowerBalance += model.Generators[j]
+
+    # Check each line and if its output bus is bus i, add the line power to the power balance
+    # If its input bus is bus i subtract the line power from the power balance
+    for k in model.Lines:
+        if k.outputBus == i.ID:
+            PowerBalance += model.Lines[k]
+        elif k.inputBus == i.ID:
+            PowerBalance -= model.Lines[k]
+    PowerBalance -= i.load
+    model.BalanceCon.add(expr=PowerBalance == 0)
+
 
 # debugging
 # print(genList[0].ID)
@@ -102,4 +123,7 @@ for i in model.Lines:
 # print(lineList[0].getBounds())
 # print(f'{TotalCost}')
 # for i in model.PowerFlowCon:
-#     model.PowerFlowCon[i].pprint()
+#    model.PowerFlowCon[i].pprint()
+# for i in model.BalanceCon:
+#    model.BalanceCon[i].pprint()
+# model.BalanceCon.pprint()
