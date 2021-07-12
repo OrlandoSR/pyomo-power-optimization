@@ -8,11 +8,12 @@ class Bus:
 
 
 class Line:
-    def __init__(self, id, inputbus, outputbus, cap):
+    def __init__(self, id, inputbus, outputbus, cap, suscept):
         self.ID = id
         self.inputBus = inputbus
         self.outputBus = outputbus
         self.capacity = cap
+        self.susceptance = suscept
 
     ID = None
     inputBus = None
