@@ -15,9 +15,9 @@ model.F12 = Var(bounds=(-50.0, 50.0))
 model.F23 = Var(bounds=(-50.0, 50.0))
 
 # phase angles
-model.theta1 = Var(bounds=(-.6, 0.6))
-model.theta2 = Var(bounds=(-0.6, 0.6))
-model.theta3 = Var(bounds=(-0.6, 0.6))
+model.theta1 = Var(bounds=(-1, 1))
+model.theta2 = Var(bounds=(-1, 1))
+model.theta3 = Var(bounds=(-1, 1))
 
 # Objective
 model.obj = Objective(expr=30*model.P1 + 50*model.P2, sense=minimize)

@@ -8,16 +8,16 @@ baseMVA = 100
 busList = []
 busList.append(Bus(1, 0))
 busList.append(Bus(2, 0))
-busList.append(Bus(3, 90))
+busList.append(Bus(3, 100))
+
+genList = []
+genList.append(Generator(1, 1, 70.0, 0.0, 30.0))
+genList.append(Generator(2, 2, 80.0, 0.0, 50.0))
 
 lineList = []
 lineList.append(Line(1, 1, 3, 50.0, 10))
 lineList.append(Line(2, 1, 2, 50.0, 10))
 lineList.append(Line(3, 2, 3, 50.0, 10))
-
-genList = []
-genList.append(Generator(1, 1, 70.0, 0.0, 30.0))
-genList.append(Generator(2, 2, 80.0, 0.0, 50.0))
 
 # construct list of angles it depends on the numbers of buses
 # for each bus i need an angle
@@ -63,11 +63,10 @@ model.Angles = Var(model.anglesSet, bounds=fb)
 TotalCost = 0
 # iterate through the list of generator and multiple them by their cost
 for i in model.Generators:
-    # print(i)
     TotalCost += i.cost*model.Generators[i]
 
 # declare objective function inside the model
-model.obj = Objective(expr=TotalCost)
+model.obj = Objective(expr=TotalCost, sense=minimize)
 
 # Constraints
 # reference angle is handled by the angle list generator
@@ -116,6 +115,20 @@ for i in busList:
     PowerBalance -= i.load
     model.BalanceCon.add(expr=PowerBalance == 0)
 
+# Solve
+results = SolverFactory('glpk').solve(model)
+results.write()
+
+# Display Solution
+print('\nObjective = ', model.obj())
+for i in model.Generators:
+    print(f'Generator {i.ID}: {model.Generators[i]()}')
+
+for i in model.Lines:
+    print(f'F{i.inputBus}{i.outputBus}: {model.Lines[i]()}')
+
+for i in model.Angles:
+    print(f'Theta{i.ID}: {model.Angles[i]()}')
 
 # debugging
 # print(genList[0].ID)
