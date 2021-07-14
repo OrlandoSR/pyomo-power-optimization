@@ -8,17 +8,17 @@ class Bus:
 
 
 class Line:
-    def __init__(self, id, inputbus, outputbus, cap, suscept):
+    def __init__(self, id, inputbus, outputbus, cap, reactance):
         self.ID = id
         self.inputBus = inputbus
         self.outputBus = outputbus
         self.capacity = cap
-        self.susceptance = suscept
+        self.susceptance = 1 / reactance
 
     ID = None
     inputBus = None
     outputBus = None
-    susceptance = 0
+    susceptance = None
     capacity = None
 
     def getBounds(self):
