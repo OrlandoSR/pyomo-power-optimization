@@ -1,29 +1,30 @@
 from pyomo.environ import *
 from Variables import *
+from Reading import *
 
 baseMVA = 100
 
 # create bus, gens, lines and angles
 # later this will be done automatically from a txt file
-busList = []
-busList.append(Bus(1, 0))
-busList.append(Bus(2, 0))
-busList.append(Bus(3, 100))
+# busList = []
+# busList.append(Bus(1, 0))
+# busList.append(Bus(2, 0))
+# busList.append(Bus(3, 100))
 
-genList = []
-genList.append(Generator(1, 1, 70.0, 0.0, 30.0))
-genList.append(Generator(2, 2, 80.0, 0.0, 50.0))
+# genList = []
+# genList.append(Generator(1, 1, 70.0, 0.0, 30.0))
+# genList.append(Generator(2, 2, 80.0, 0.0, 50.0))
 
-lineList = []
-lineList.append(Line(1, 1, 3, 50.0, 10))
-lineList.append(Line(2, 1, 2, 50.0, 10))
-lineList.append(Line(3, 2, 3, 50.0, 10))
+# lineList = []
+# lineList.append(Line(1, 1, 3, 50.0, 10))
+# lineList.append(Line(2, 1, 2, 50.0, 10))
+# lineList.append(Line(3, 2, 3, 50.0, 10))
 
 # construct list of angles it depends on the numbers of buses
 # for each bus i need an angle
 anglesList = []
 # sets the ID for the angle that will be treated as reference
-referenceID = 1
+referenceID = "1"
 for i in busList:
     if i.ID == referenceID:
         anglesList.append(Angle(i.ID, 0, 0))
